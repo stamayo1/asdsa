@@ -41,6 +41,7 @@ const deleteWord$ = onKeyDown$.pipe(
 
 const insertLetter  = {
     next: (pressKey) => {
+        // Insertar una nueva letra en la casilla correspondiente de la fila 
 
         let letterBox = Array.from(letterRows)[letterRowIndex].children[letterIndex];
         letterBox.textContent = pressKey;
@@ -53,6 +54,7 @@ const insertLetter  = {
 
 const deleteLetter = {
     next: () => {
+        // Eliminar la ultima letra ingresada en el fila
 
         letterIndex--;
 
@@ -66,6 +68,7 @@ const deleteLetter = {
 
 const checkWord = {
     next: () => {
+        // Verificar si la palabra ingresada es la correcta
         
         if (userAnswer.length !== 5) {
 
@@ -80,19 +83,24 @@ const checkWord = {
             let letterPosition = rightWord.indexOf(word);
 
             if(letterPosition === -1){
+                // Letra no presente en la palabra correcta
+
                 letterColor = 'letter--grey';
 
             }else{
 
                 if(rightWord[i] === word){
-                    
+                    //Letra en la posición correcta de la palabra
+
                     letterColor = 'letter--green';
                 }else{
+                    // Letra presente en la palabra pero no es la posición correcta
 
                     letterColor = 'letter--yellow';
                 }
             }
 
+            //Añade el estilo correspondiente a cada letra
             letterBox.classList.add(letterColor);
         });
 
@@ -119,15 +127,21 @@ const checkWord = {
 // SUSCRIPCIONES
 
 insertLetter$
-.pipe(takeUntil(userWinOrLoose$))
+.pipe(
+    takeUntil(userWinOrLoose$)
+)
 .subscribe(insertLetter);
 
 deleteWord$
-.pipe(takeUntil(userWinOrLoose$))
+.pipe(
+    takeUntil(userWinOrLoose$)
+)
 .subscribe(deleteLetter);
 
 checkWord$
-.pipe(takeUntil(userWinOrLoose$))
+.pipe(
+    takeUntil(userWinOrLoose$)
+)
 .subscribe(checkWord);
 
 userWinOrLoose$
